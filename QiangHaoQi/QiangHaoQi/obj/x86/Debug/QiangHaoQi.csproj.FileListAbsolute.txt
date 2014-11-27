@@ -8,3 +8,12 @@ K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.exe
 K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.pdb
 K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Form1.resources
 K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.exe.config
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.exe.config
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.exe
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.pdb
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.exe
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.pdb
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.csprojResolveAssemblyReference.cache
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Form1.resources
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Properties.Resources.resources
+E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.csproj.GenerateResource.Cache

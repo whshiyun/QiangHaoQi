@@ -16,6 +16,8 @@ namespace QiangHaoQi
         public Form1()
         {
             InitializeComponent();
+            username.Text = "13297912053";
+            password.Text = "112200";
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -28,7 +30,7 @@ namespace QiangHaoQi
             crifanLib crifan = new crifanLib();
 
             //textBox1.Text = "aaaaaaaaaaaaa";
-            string url = "http://jsonp.yihu.com/action/login/login.ashx?d=1416883229934&loginid=18120558799&pwd=112200&type=1&CkSavePwd=n&callback=_jqjsp&_1416883229934=";
+            string url = "http://jsonp.yihu.com/action/login/login.ashx?d=1416883229934&loginid="+username.Text+"&pwd="+password.Text+"&type=1&CkSavePwd=n&callback=_jqjsp&_1416883229934=";
             CookieContainer cookieContainer = new CookieContainer();
             //cookieContainer.Add()
             //用url实例化HttpWebRequest类
