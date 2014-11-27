@@ -61,7 +61,10 @@ namespace QiangHaoQi
             textBox1.Text = html;
 
 
-            string url1 = "http://www.yihu.com/";//"http://www.yihu.com/#";
+            string url1 = "http://www.yihu.com/Action/Doctor/NewRegCheck.ashx?time=1417097780646&url=http%3A%2F%2Fwww.yihu.com%2Fdoctor%2FNewOrderList.aspx%3Fdoctorsn%3D710036578%26sn%3D121826776%26saleid%3D3565097&membersn=9824864&memberid=1&ID=121826776";
+            //"http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=http%3A%2F%2Fwww.yihu.com%2Fdoctor%2FNewOrderList.aspx%3Fdoctorsn%3D710036578%26sn%3D121826776%26saleid%3D3565097&d=1417097479373";
+            //"http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=710036578&date=2014-12-02&timeid=1&type=3&weekid=2&url=http%253A//www.yihu.com/doctor/ordernumber.aspx%253Fstate%253D4%2526doctorsn%253D710036578%2526registerdate%253D2014-12-02%2526timeid%253D1%2526weekid%253D2%2526ordertype%253D3%2526watersn%253D39428543&state=4&d=1417096199516";
+            //"http://www.yihu.com/";
             string url2 = "http://sr2.yihuimg.com/js/default.js?yj=2014/11/27%2010:46:45";
             string url3 = "http://hm.baidu.com/hm.gif?cc=1&ck=1&cl=24-bit&ds=1680x1050&ep=12856%2C4994&et=3&fl=15.0&ja=1&ln=zh-CN&lo=0&lt=1416881715&nv=0&rnd=376184298&si=50a96b999b752ef15792867dfda15c2a&st=4&su=http%3A%2F%2Fwww.yihu.co";
 
