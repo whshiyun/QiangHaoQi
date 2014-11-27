@@ -1,0 +1,10 @@
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.exe
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.pdb
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\ResolveAssemblyReference.cache
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Properties.Resources.resources
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\GenerateResource.read.1.tlog
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\GenerateResource.write.1.tlog
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.exe
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.pdb
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Form1.resources
+K:\VisualStudioWorkSpase\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.exe.config
