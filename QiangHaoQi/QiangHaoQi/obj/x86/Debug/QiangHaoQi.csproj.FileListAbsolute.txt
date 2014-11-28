@@ -17,3 +17,12 @@ E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.csprojResolv
 E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Form1.resources
 E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Properties.Resources.resources
 E:\github\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.csproj.GenerateResource.Cache
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.exe.config
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.exe
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.pdb
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.exe
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\bin\Debug\QiangHaoQi.pdb
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.csprojResolveAssemblyReference.cache
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Form1.resources
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.Properties.Resources.resources
+K:\GitHub\QiangHaoQi\QiangHaoQi\QiangHaoQi\obj\x86\Debug\QiangHaoQi.csproj.GenerateResource.Cache
