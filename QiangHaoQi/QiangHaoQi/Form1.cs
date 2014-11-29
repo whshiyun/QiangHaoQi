@@ -282,10 +282,20 @@ namespace QiangHaoQi
             try
             {
                 jsd = JsonMapper.ToObject(foundH1user.Groups["js"].Value);
-                textBox1.Text = (string)jsd["IsLogin"];
+                //textBox1.Text = (string)jsd["IsLogin"];
+                //textBox1.Text = jsd["ArrangeList"][0].ToString();
+                //textBox1.Text = jsd["ArrangeList"].IsArray.ToString();
                 //print (frame["cmd"]);
                 //print (frame["data"]);
                 //DataProc((byte)frame["cmd"], (JsonData)frame["data"]);
+                if (jsd["ArrangeList"].IsArray)
+                {
+                    foreach (JsonData j in jsd["ArrangeList"])
+                    {
+                        TimeCh.Items.Add("星期：" + j["WeekIndex"].ToString() +
+                            (j["TimeId"].ToString() == "1" ? "上午" : "下午"));
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -293,6 +303,8 @@ namespace QiangHaoQi
                 //return;
                 textBox1.Text = "json error";
             }
+
+            Doctor.SelectedIndex = 0;
         }
     }
 }

@@ -42,7 +42,7 @@
             this.Doctor = new System.Windows.Forms.ComboBox();
             this.TimeOk = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.TimeCh = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -168,13 +168,13 @@
             this.label5.TabIndex = 13;
             this.label5.Text = "选择时间：";
             // 
-            // comboBox3
+            // TimeCh
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(455, 147);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(200, 20);
-            this.comboBox3.TabIndex = 12;
+            this.TimeCh.FormattingEnabled = true;
+            this.TimeCh.Location = new System.Drawing.Point(455, 147);
+            this.TimeCh.Name = "TimeCh";
+            this.TimeCh.Size = new System.Drawing.Size(200, 20);
+            this.TimeCh.TabIndex = 12;
             // 
             // Form1
             // 
@@ -183,7 +183,7 @@
             this.ClientSize = new System.Drawing.Size(748, 423);
             this.Controls.Add(this.TimeOk);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.TimeCh);
             this.Controls.Add(this.DocOk);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.Doctor);
@@ -219,7 +219,7 @@
         private System.Windows.Forms.ComboBox Doctor;
         private System.Windows.Forms.Button TimeOk;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox TimeCh;
     }
 }
 
