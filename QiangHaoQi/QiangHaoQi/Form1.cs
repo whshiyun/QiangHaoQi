@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Text.RegularExpressions;
+using LitJson;
 
 namespace QiangHaoQi
 {
@@ -23,18 +24,34 @@ namespace QiangHaoQi
 
         private class NameAndUrl
         {
-            public NameAndUrl(string name, string url)
+            public NameAndUrl(string name, string url, string sn="")
             {
                 this.name = name;
-                this.url = url;
+                this.url = url+"?sn="+sn;
+                this.sn = sn;
             }
             public string name;
             public string url;
+            public string sn;
+        }
+
+        private class DocInfo
+        {
+            public DocInfo(string name, string id, string sn)
+            {
+                this.name = name;
+                this.id = id;
+                this.sn = sn;
+            }
+            public string name;
+            public string id;
+            public string sn;
         }
 
         private const string baseUrl = "http://www.yihu.com/";
         private List<NameAndUrl> departmentsArr = new List<NameAndUrl>();
         private List<NameAndUrl> doctorArr = new List<NameAndUrl>();
+        //private List<DocInfo> doctorInfo = new List<DocInfo>();
         private CookieContainer cookieContainer = new CookieContainer();
 
         private void Set_NameAndUrl(List<NameAndUrl> list, MatchCollection nameAndUrl)
@@ -43,7 +60,7 @@ namespace QiangHaoQi
             {
                 //this.comb_type.Items.Add(new ControlItem(dr,dr["answertypename"].ToString()));
                 //Departments.Items.Add(m.Groups["name"].Value);
-                list.Add(new NameAndUrl(m.Groups["name"].Value, baseUrl + m.Groups["url"].Value));
+                list.Add(new NameAndUrl(m.Groups["name"].Value, baseUrl+m.Groups["url"].Value, m.Groups["sn"].Value));
             }
             //Departments.SelectedIndex = 0;
         }
@@ -188,10 +205,13 @@ namespace QiangHaoQi
             stream.Close();
             textBox1.Text = html;
 
+            //(?<=\s)\d+(?=\s)
             //<a target="_blank" href="/doctor/hb/EE8DC590BDB14B069C5F1D95FAC060DD.shtml?sn=22573" title="黄玉兰">黄玉兰</a>
             //string h1userP = @"<a\s+href=""(?<url>[^""]+?)""\s+title=""[^""]*"">(?<name>.+?)</a>";
-            string h1userP = @"<a\s+target=""[^""]*""\s+href=""(?<url>[^""]+?)""\s+title=""[^""]*"">(?<name>.+?)</a>";
+            //string h1userP = @"<a\s+target=""[^""]*""\s+href=""(?<url>[^""]+?)""\s+title=""[^""]*"">(?<name>.+?)</a>";
+            string h1userP = @"<a\s+target=""_blank""\s+href=""(?<url>[^\?]+?)\?sn=(?<sn>[^""]+?)""\s+title=""[^""]*"">(?<name>.+?)</a>";
             MatchCollection foundH1user = (new Regex(h1userP)).Matches(textBox1.Text);
+
             textBox1.Text = "";
             foreach (Match m in foundH1user)
             {
@@ -200,6 +220,7 @@ namespace QiangHaoQi
                     //extracted the expected h1user's value
                     textBox1.Text += m.Groups["name"].Value;
                     textBox1.Text += m.Groups["url"].Value;
+                    textBox1.Text += m.Groups["sn"].Value;
                     textBox1.Text += "\r\n";
                     Doctor.Items.Add(m.Groups["name"].Value);
                 }
@@ -215,11 +236,31 @@ namespace QiangHaoQi
 
         private void DocOk_Click(object sender, EventArgs e)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(doctorArr[Doctor.SelectedIndex].url);
+            //HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(doctorArr[Doctor.SelectedIndex].url);
 
+            ////填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            //request.CookieContainer = cookieContainer;
+            //request.Referer = doctorArr[Doctor.SelectedIndex].url;
+            //request.ContentType = "application/x-www-form-urlencoded";
+            //request.Accept = "*/*";
+            //request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            //request.Method = "GET";
+
+            //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            //Stream stream = response.GetResponseStream();  //转换为数据流
+            //StreamReader reader = new StreamReader(stream);
+            //string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            //reader.Close();
+            //stream.Close();
+            //textBox1.Text = html;
+            //HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(doctorArr[Doctor.SelectedIndex].url);
+
+            string url = "http://guahaojsonp.yihu.com/action/GuaHao/ArangeJson.ashx?d=&page=1&viewtime=1&docid="+doctorArr[Doctor.SelectedIndex].sn+"&docsn="+doctorArr[Doctor.SelectedIndex].sn;
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
             request.CookieContainer = cookieContainer;
-            request.Referer = doctorArr[Doctor.SelectedIndex].url;
+            request.Referer = url;
             request.ContentType = "application/x-www-form-urlencoded";
             request.Accept = "*/*";
             request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
@@ -233,6 +274,25 @@ namespace QiangHaoQi
             reader.Close();
             stream.Close();
             textBox1.Text = html;
+            JsonData jsd;
+
+            string h1userP = @"\((?<js>[^\)]+?)\)";
+            Match foundH1user = (new Regex(h1userP)).Match(textBox1.Text);
+
+            try
+            {
+                jsd = JsonMapper.ToObject(foundH1user.Groups["js"].Value);
+                textBox1.Text = (string)jsd["IsLogin"];
+                //print (frame["cmd"]);
+                //print (frame["data"]);
+                //DataProc((byte)frame["cmd"], (JsonData)frame["data"]);
+            }
+            catch (Exception ex)
+            {
+                //print(ex);
+                //return;
+                textBox1.Text = "json error";
+            }
         }
     }
 }
