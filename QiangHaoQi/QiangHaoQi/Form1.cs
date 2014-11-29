@@ -278,7 +278,8 @@ namespace QiangHaoQi
 
             string h1userP = @"\((?<js>[^\)]+?)\)";
             Match foundH1user = (new Regex(h1userP)).Match(textBox1.Text);
-
+           // Encoding htmlEncoding = Encoding.GetEncoding("UTF-8").GetString();
+            //htmlEncoding.GetString()
             try
             {
                 jsd = JsonMapper.ToObject(foundH1user.Groups["js"].Value);
@@ -292,8 +293,17 @@ namespace QiangHaoQi
                 {
                     foreach (JsonData j in jsd["ArrangeList"])
                     {
+                        string outStr = "";
+                        string[] strlist = j["ShowMsg"].ToString().Replace("%", "").Split('u'); 
+                        for (int i = 1; i < strlist.Length; i++)
+                        {
+                            //将unicode字符转为10进制整数，然后转为char中文字符  
+                            outStr += (char)int.Parse(strlist[i], System.Globalization.NumberStyles.HexNumber);
+                        }  
                         TimeCh.Items.Add("星期：" + j["WeekIndex"].ToString() +
-                            (j["TimeId"].ToString() == "1" ? "上午" : "下午"));
+                            "(" + j["RegDate"].ToString() + ")" +
+                            (j["TimeId"].ToString() == "1" ? "上午" : "下午") + "," +
+                            outStr);
                     }
                 }
             }
@@ -304,7 +314,7 @@ namespace QiangHaoQi
                 textBox1.Text = "json error";
             }
 
-            Doctor.SelectedIndex = 0;
+            TimeCh.SelectedIndex = 0;
         }
     }
 }
