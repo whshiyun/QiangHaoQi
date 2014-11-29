@@ -18,7 +18,7 @@ namespace QiangHaoQi
         {
             InitializeComponent();
             username.Text = "13297912053";
-            password.Text = "112200";
+            password.Text = "123654";
         }
 
         private class NameAndUrl
@@ -101,28 +101,28 @@ namespace QiangHaoQi
             request.Method = "GET";
 
             response = (HttpWebResponse)request.GetResponse();
-            if (false)
-            {
-                request = (HttpWebRequest)HttpWebRequest.Create(url2);
-                //HttpWebRequest request1 = (HttpWebRequest)HttpWebRequest.Create(url);
-                request.CookieContainer = cookieContainer;
-                request.Referer = url;
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
-                request.Method = "GET";
-                response = (HttpWebResponse)request.GetResponse();
+            //if (false)
+            //{
+            //    request = (HttpWebRequest)HttpWebRequest.Create(url2);
+            //    //HttpWebRequest request1 = (HttpWebRequest)HttpWebRequest.Create(url);
+            //    request.CookieContainer = cookieContainer;
+            //    request.Referer = url;
+            //    request.ContentType = "application/x-www-form-urlencoded";
+            //    request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
+            //    request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            //    request.Method = "GET";
+            //    response = (HttpWebResponse)request.GetResponse();
 
-                request = (HttpWebRequest)HttpWebRequest.Create(url3);
-                //HttpWebRequest request1 = (HttpWebRequest)HttpWebRequest.Create(url);
-                request.CookieContainer = cookieContainer;
-                request.Referer = url;
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
-                request.Method = "GET";
-                response = (HttpWebResponse)request.GetResponse();
-            }
+            //    request = (HttpWebRequest)HttpWebRequest.Create(url3);
+            //    //HttpWebRequest request1 = (HttpWebRequest)HttpWebRequest.Create(url);
+            //    request.CookieContainer = cookieContainer;
+            //    request.Referer = url;
+            //    request.ContentType = "application/x-www-form-urlencoded";
+            //    request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
+            //    request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            //    request.Method = "GET";
+            //    response = (HttpWebResponse)request.GetResponse();
+            //}
             string htmlCharset = "UTF-8";
             //use songtaste's html's charset GB2312 to decode html
             //otherwise will return messy code
