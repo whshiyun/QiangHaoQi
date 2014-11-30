@@ -10,6 +10,8 @@ using System.Net;
 using System.IO;
 using System.Text.RegularExpressions;
 using LitJson;
+using System.Web;
+using System.Threading;
 
 namespace QiangHaoQi
 {
@@ -161,6 +163,8 @@ namespace QiangHaoQi
             //MatchCollection foundH1user = Regex.Matches(textBox1.Text, h1userP);
             //Match foundH1user = Regex.Match(textBox1.Text, h1userP);
             //textBox1.Text = "";
+
+            Departments.Items.Clear();
             foreach (Match m in foundH1user)
             {
                 if (m.Success)
@@ -213,6 +217,7 @@ namespace QiangHaoQi
             MatchCollection foundH1user = (new Regex(h1userP)).Matches(textBox1.Text);
 
             textBox1.Text = "";
+            Doctor.Items.Clear();
             foreach (Match m in foundH1user)
             {
                 if (m.Success)
@@ -229,7 +234,8 @@ namespace QiangHaoQi
                     textBox1.Text += "Not found h1 user !";
                 }
             }
-            Doctor.SelectedIndex = 0;
+            if(Doctor.Items.Count != 0)
+                Doctor.SelectedIndex = 0;
 
             Set_NameAndUrl(doctorArr, foundH1user);
         }
@@ -257,6 +263,7 @@ namespace QiangHaoQi
             //HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(doctorArr[Doctor.SelectedIndex].url);
 
             string url = "http://guahaojsonp.yihu.com/action/GuaHao/ArangeJson.ashx?d=&page=1&viewtime=1&docid="+doctorArr[Doctor.SelectedIndex].sn+"&docsn="+doctorArr[Doctor.SelectedIndex].sn;
+            string url1 = "http://guahaojsonp.yihu.com/action/GuaHao/ArangeJson.ashx?d=&page=2&viewtime=1&docid=" + doctorArr[Doctor.SelectedIndex].sn + "&docsn=" + doctorArr[Doctor.SelectedIndex].sn;
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
             request.CookieContainer = cookieContainer;
@@ -271,17 +278,17 @@ namespace QiangHaoQi
             Stream stream = response.GetResponseStream();  //转换为数据流
             StreamReader reader = new StreamReader(stream);
             string html = reader.ReadToEnd();   //通过StreamReader类读取流
-            reader.Close();
-            stream.Close();
+            //reader.Close();
+            //stream.Close();
             textBox1.Text = html;
             JsonData jsd;
-
-            string h1userP = @"\((?<js>[^\)]+?)\)";
-            Match foundH1user = (new Regex(h1userP)).Match(textBox1.Text);
+            
            // Encoding htmlEncoding = Encoding.GetEncoding("UTF-8").GetString();
             //htmlEncoding.GetString()
             try
             {
+                string h1userP = @"\((?<js>[^\)]+?)\)";
+                Match foundH1user = (new Regex(h1userP)).Match(textBox1.Text);
                 jsd = JsonMapper.ToObject(foundH1user.Groups["js"].Value);
                 //textBox1.Text = (string)jsd["IsLogin"];
                 //textBox1.Text = jsd["ArrangeList"][0].ToString();
@@ -291,14 +298,25 @@ namespace QiangHaoQi
                 //DataProc((byte)frame["cmd"], (JsonData)frame["data"]);
                 if (jsd["ArrangeList"].IsArray)
                 {
+                    TimeCh.Items.Clear();
                     foreach (JsonData j in jsd["ArrangeList"])
                     {
                         string outStr = "";
                         string[] strlist = j["ShowMsg"].ToString().Replace("%", "").Split('u'); 
                         for (int i = 1; i < strlist.Length; i++)
                         {
-                            //将unicode字符转为10进制整数，然后转为char中文字符  
-                            outStr += (char)int.Parse(strlist[i], System.Globalization.NumberStyles.HexNumber);
+                            if (strlist[i].Length > 4)
+                            {
+                                string str1 = strlist[i].Substring(0,4);
+                                string str2 = strlist[i].Substring(4);
+                                outStr += (char)int.Parse(str1, System.Globalization.NumberStyles.HexNumber);
+                                outStr += str2;
+                            }
+                            else
+                            {
+                                //将unicode字符转为10进制整数，然后转为char中文字符  
+                                outStr += (char)int.Parse(strlist[i], System.Globalization.NumberStyles.HexNumber);
+                            } 
                         }  
                         TimeCh.Items.Add("星期：" + j["WeekIndex"].ToString() +
                             "(" + j["RegDate"].ToString() + ")" +
@@ -313,8 +331,146 @@ namespace QiangHaoQi
                 //return;
                 textBox1.Text = "json error";
             }
+            Thread.Sleep(2000);//两次请求太快，网站可能会阻止第二次请求
+            request = (HttpWebRequest)HttpWebRequest.Create(url1);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "GET";
 
-            TimeCh.SelectedIndex = 0;
+            response = (HttpWebResponse)request.GetResponse();
+
+            stream = response.GetResponseStream();  //转换为数据流
+            reader = new StreamReader(stream);
+            html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
+
+            // Encoding htmlEncoding = Encoding.GetEncoding("UTF-8").GetString();
+            //htmlEncoding.GetString()
+            try
+            {
+                string h1userP = @"\((?<js>[^\)]+?)\)";
+                Match foundH1user = (new Regex(h1userP)).Match(textBox1.Text);
+                jsd = JsonMapper.ToObject(foundH1user.Groups["js"].Value);
+                //textBox1.Text = (string)jsd["IsLogin"];
+                //textBox1.Text = jsd["ArrangeList"][0].ToString();
+                //textBox1.Text = jsd["ArrangeList"].IsArray.ToString();
+                //print (frame["cmd"]);
+                //print (frame["data"]);
+                //DataProc((byte)frame["cmd"], (JsonData)frame["data"]);
+                if (jsd["ArrangeList"].IsArray)
+                {
+                    foreach (JsonData j in jsd["ArrangeList"])
+                    {
+                        string outStr = "";
+                        string[] strlist = j["ShowMsg"].ToString().Replace("%", "").Split('u');
+                        for (int i = 1; i < strlist.Length; i++)
+                        {
+                            if (strlist[i].Length > 4)
+                            {
+                                string str1 = strlist[i].Substring(0, 4);
+                                string str2 = strlist[i].Substring(4);
+                                outStr += (char)int.Parse(str1, System.Globalization.NumberStyles.HexNumber);
+                                outStr += str2;
+                            }
+                            else
+                            {
+                                //将unicode字符转为10进制整数，然后转为char中文字符  
+                                outStr += (char)int.Parse(strlist[i], System.Globalization.NumberStyles.HexNumber);
+                            }
+                        }
+                        TimeCh.Items.Add("星期：" + j["WeekIndex"].ToString() +
+                            "(" + j["RegDate"].ToString() + ")" +
+                            (j["TimeId"].ToString() == "1" ? "上午" : "下午") + "," +
+                            outStr);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //print(ex);
+                //return;
+                textBox1.Text = "json error";
+            }
+
+
+            if (TimeCh.Items.Count != 0)
+                TimeCh.SelectedIndex = 0;
+        }
+
+        private void TimeOk_Click(object sender, EventArgs e)
+        {
+            string url = "http://www.yihu.com/action/doctor/guahaocheck1.ashx";
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "POST";
+
+            Dictionary<string, string> keyvalues = new Dictionary<string, string>();
+            keyvalues.Add("doctorsn", "22599");
+            keyvalues.Add("sn", "121908955");
+            keyvalues.Add("d", "1417347666366");
+
+            Encoding encoding;
+            encoding = Encoding.UTF8;
+
+            string postData = null;
+            // 将数据项转变成 name1=value1&name2=value2 的形式
+            if (keyvalues != null && keyvalues.Count > 0)
+            {
+                postData = string.Join("&",
+                        (from kvp in keyvalues
+                         let item = kvp.Key + "=" + HttpUtility.UrlEncode(kvp.Value)
+                         select item
+                         ).ToArray()
+                     );
+            }
+
+            byte[] buffer = encoding.GetBytes(postData);
+            request.ContentLength = buffer.Length;
+
+            Stream stream1 = request.GetRequestStream();
+            stream1.Write(buffer, 0, buffer.Length);
+            stream1.Close();
+
+            
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            //Stream stream = response.GetResponseStream();  //转换为数据流
+            //StreamReader reader = new StreamReader(stream);
+            //string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            //reader.Close();
+            //stream.Close();
+            //textBox1.Text = html;
+
+            url = "http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22599&sn=121908964&saleid=3590098";
+            HttpWebRequest request1 = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request1.CookieContainer = cookieContainer;
+            request1.Referer = url;
+            request1.ContentType = "application/x-www-form-urlencoded";
+            request1.Accept = "*/*";
+            request1.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request1.Method = "GET";
+
+            HttpWebResponse response1 = (HttpWebResponse)request1.GetResponse();
+
+            Stream stream = response1.GetResponseStream();  //转换为数据流
+            StreamReader reader = new StreamReader(stream);
+            string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
         }
     }
 }

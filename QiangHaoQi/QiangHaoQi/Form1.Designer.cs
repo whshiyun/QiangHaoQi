@@ -158,6 +158,7 @@
             this.TimeOk.TabIndex = 14;
             this.TimeOk.Text = "Ok";
             this.TimeOk.UseVisualStyleBackColor = true;
+            this.TimeOk.Click += new System.EventHandler(this.TimeOk_Click);
             // 
             // label5
             // 

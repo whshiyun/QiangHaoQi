@@ -1,0 +1,20 @@
+/**state  0停诊 1 已截止 2 未放号 3 已约满 4正常**/
+
+http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=22598&date=2014-12-05&timeid=1&type=3&weekid=5&url=http%253A//www.yihu.com/doctor/ordernumber.aspx%253Fstate%253D4%2526doctorsn%253D22598%2526registerdate%253D2014-12-05%2526timeid%253D1%2526weekid%253D5%2526ordertype%253D3%2526watersn%253D&state=4&d=
+
+http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=23975&date=2014-12-03&timeid=1&type=3&weekid=3&url=http%253A//www.yihu.com/doctor/ordernumber.aspx%253Fstate%253D4%2526doctorsn%253D%2526registerdate%253D%2526timeid%253D%2526weekid%253D%2526ordertype%253D%2526watersn%253D&state=3&d=
+
+
+http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=23975&date=2014-12-03&timeid=1&type=3&weekid=3&url=&state=3&d=
+
+http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=23975&date=2014-12-03&timeid=1&type=3&weekid=3&url=http%253A//www.yihu.com/doctor/ordernumber.aspx%253Fstate%253D3%2526doctorsn%253D23975%2526registerdate%253D2014-12-03%2526timeid%253D1%2526weekid%253D3%2526ordertype%253D3%2526watersn%253D39446943&state=3&d=1417263522726
+
+
+http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=22573&date=2014-12-08&timeid=1&type=3&weekid=3&url=&state=4&d=
+
+http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=22573&date=2014-12-08&timeid=2&type=3&weekid=1&url=http%253A//www.yihu.com/doctor/ordernumber.aspx%253Fstate%253D4%2526doctorsn%253D22573%2526registerdate%253D2014-12-08%2526timeid%253D2%2526weekid%253D1%2526ordertype%253D3%2526watersn%253D39568995&state=4&d=1417345715301
+
+http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22573&sn=122351446&saleid=3588947
+
+账户查询，获取memberID等！！非常重要
+http://www.yihu.com/Action/UserManager/ZhangHu.ashx?d=1417359697098
