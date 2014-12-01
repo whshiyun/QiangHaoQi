@@ -18,3 +18,8 @@ http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22573&sn=122351446&saleid=
 
 账户查询，获取memberID等！！非常重要
 http://www.yihu.com/Action/UserManager/ZhangHu.ashx?d=1417359697098
+
+http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=22598&date=2014-12-05&timeid=1&type=3&weekid=5&url=&state=4&d=
+
+
+{"Code":2,"Message":"需要到充值页面","LockOrderID":"9C6EFA92BF1641C7A482510CAE3F420F","WaterID":122037416,"DoctorSN":22598,"HinStr":"2014年12月05日&nbsp;星期五&nbsp;上午&nbsp;","Url":"/doctor/NewOrderList.aspx?doctorsn=22598&sn=122037416&saleid=3602815","Time":"20141201075554","isPkg":"True","IsShouFei":"True"}
