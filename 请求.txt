@@ -21,5 +21,15 @@ http://www.yihu.com/Action/UserManager/ZhangHu.ashx?d=1417359697098
 
 http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=22598&date=2014-12-05&timeid=1&type=3&weekid=5&url=&state=4&d=
 
+//这里获取memberID及memberSN！！
+http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=&d=
+
+//获取挂号人员的身份证、生日等信息
+http://www.yihu.com/Action/Doctor/NewRegCheck.ashx?time=1417446441703&url=&membersn=9824864&memberid=1&ID=122433029
 
 {"Code":2,"Message":"需要到充值页面","LockOrderID":"9C6EFA92BF1641C7A482510CAE3F420F","WaterID":122037416,"DoctorSN":22598,"HinStr":"2014年12月05日&nbsp;星期五&nbsp;上午&nbsp;","Url":"/doctor/NewOrderList.aspx?doctorsn=22598&sn=122037416&saleid=3602815","Time":"20141201075554","isPkg":"True","IsShouFei":"True"}
+
+//挂号请求
+http://www.yihu.com/Action/UpDateUser.ashx?up=0&cardup=0&id=122037417&memberid=1&membersn=9824864&provinceid=17&ghthospitalid=1214&IdentityNo=42098219871205564x&clinicCardNo=%E5%88%9D%E8%AF%8A&othercard=%E6%97%A0%E5%8C%BB%E4%BF%9D%E5%8D%A1&year=1987&month=12&day=5&d=1417445132505&url=http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22598&sn=122037417&saleid=3605236
+//对挂号请求的url编码的解码
+http://www.yihu.com/Action/UpDateUser.ashx?up=0&cardup=0&id=122037417&memberid=1&membersn=9824864&provinceid=17&ghthospitalid=1214&IdentityNo=42098219871205564x&clinicCardNo=初诊&othercard=无医保卡&year=1987&month=12&day=5&d=1417445132505&url=http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22598&sn=122037417&saleid=3605236

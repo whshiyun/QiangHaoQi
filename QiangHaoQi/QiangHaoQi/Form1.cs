@@ -576,7 +576,12 @@ namespace QiangHaoQi
             html = reader.ReadToEnd();   //通过StreamReader类读取流
             reader.Close();
             stream.Close();
-            textBox1.Text = html;
+            textBox1.Text = url;//html;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
