@@ -50,11 +50,45 @@ namespace QiangHaoQi
             public string sn;
         }
 
+        public class SchedulingTableInfo
+        {
+            public SchedulingTableInfo(string date, string timeId, string weekid)
+            {
+                this.date = date;
+                this.timeId = timeId;
+                this.weekid = weekid;
+            }
+            public string date;
+            public string timeId;
+            public string weekid;
+        }
+
+        public class PermitInfo
+        {
+            public PermitInfo(string Code, string LockOrderID, string WaterID, string HinStr, string Url, string Time)
+            {
+                this.Code = Code;
+                this.LockOrderID = LockOrderID;
+                this.WaterID = WaterID;
+                this.HinStr = HinStr;
+                this.Url = Url;
+                this.Time = Time;
+            }
+            public string Code;
+            public string LockOrderID;
+            public string WaterID;
+            public string HinStr;
+            public string Url;
+            public string Time;
+        }
+
         private const string baseUrl = "http://www.yihu.com/";
         private List<NameAndUrl> departmentsArr = new List<NameAndUrl>();
         private List<NameAndUrl> doctorArr = new List<NameAndUrl>();
         //private List<DocInfo> doctorInfo = new List<DocInfo>();
         private CookieContainer cookieContainer = new CookieContainer();
+        private List<SchedulingTableInfo> schedulingTableInfo = new List<SchedulingTableInfo>();
+        private PermitInfo permitInfo;
 
         private void Set_NameAndUrl(List<NameAndUrl> list, MatchCollection nameAndUrl)
         {
@@ -69,7 +103,8 @@ namespace QiangHaoQi
 
         private void button1_Click(object sender, EventArgs e)
         {
-            crifanLib crifan = new crifanLib();
+            departmentsArr.Clear();
+            //crifanLib crifan = new crifanLib();
 
             //textBox1.Text = "aaaaaaaaaaaaa";
             string url = "http://jsonp.yihu.com/action/login/login.ashx?d=1416883229934&loginid=" + username.Text + "&pwd=" + password.Text + "&type=1&CkSavePwd=n&callback=_jqjsp&_1416883229934=";
@@ -190,6 +225,8 @@ namespace QiangHaoQi
 
         private void DepartmentOk_Click(object sender, EventArgs e)
         {
+            doctorArr.Clear();
+
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(departmentsArr[Departments.SelectedIndex].url);
 
             //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
@@ -242,6 +279,7 @@ namespace QiangHaoQi
 
         private void DocOk_Click(object sender, EventArgs e)
         {
+            schedulingTableInfo.Clear();
             //HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(doctorArr[Doctor.SelectedIndex].url);
 
             ////填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
@@ -303,6 +341,7 @@ namespace QiangHaoQi
                     {
                         string outStr = "";
                         string[] strlist = j["ShowMsg"].ToString().Replace("%", "").Split('u'); 
+                        //string[] strlist = j["ShowMsg"].ToString().Replace("%u", "/").Split('/');
                         for (int i = 1; i < strlist.Length; i++)
                         {
                             if (strlist[i].Length > 4)
@@ -316,12 +355,14 @@ namespace QiangHaoQi
                             {
                                 //将unicode字符转为10进制整数，然后转为char中文字符  
                                 outStr += (char)int.Parse(strlist[i], System.Globalization.NumberStyles.HexNumber);
-                            } 
+                            }
                         }  
                         TimeCh.Items.Add("星期：" + j["WeekIndex"].ToString() +
                             "(" + j["RegDate"].ToString() + ")" +
                             (j["TimeId"].ToString() == "1" ? "上午" : "下午") + "," +
                             outStr);
+
+                        schedulingTableInfo.Add(new SchedulingTableInfo(j["RegDate"].ToString(), j["TimeId"].ToString(), j["WeekIndex"].ToString()));
                     }
                 }
             }
@@ -388,6 +429,8 @@ namespace QiangHaoQi
                             "(" + j["RegDate"].ToString() + ")" +
                             (j["TimeId"].ToString() == "1" ? "上午" : "下午") + "," +
                             outStr);
+
+                        schedulingTableInfo.Add(new SchedulingTableInfo(j["RegDate"].ToString(), j["TimeId"].ToString(), j["WeekIndex"].ToString()));
                     }
                 }
             }
@@ -405,8 +448,50 @@ namespace QiangHaoQi
 
         private void TimeOk_Click(object sender, EventArgs e)
         {
-            string url = "http://www.yihu.com/action/doctor/guahaocheck1.ashx";
+            string url = "http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=" + doctorArr[Doctor.SelectedIndex].sn +
+                "&date=" + schedulingTableInfo[TimeCh.SelectedIndex].date + "&timeid=" + schedulingTableInfo[TimeCh.SelectedIndex].timeId + 
+                "&type=3&weekid=" + schedulingTableInfo[TimeCh.SelectedIndex].weekid + "&url=&state=4&d=";
+
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "GET";
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            Stream stream = response.GetResponseStream();  //转换为数据流
+            StreamReader reader = new StreamReader(stream);
+            string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            //reader.Close();
+            //stream.Close();
+            textBox1.Text = html;
+
+            //onclick="CheckUser(122037417)"
+            //(?<url>[^\?]+?)
+            string h1userP = @"onclick=""CheckUser\((?<requestSN>.+?)\)""";
+            MatchCollection foundH1user = (new Regex(h1userP)).Matches(textBox1.Text);
+
+            textBox1.Text = "";
+            foreach (Match m in foundH1user)
+            {
+                if (m.Success)
+                {
+                    //extracted the expected h1user's value
+                    textBox1.Text += m.Groups["requestSN"].Value;
+                    textBox1.Text += "\r\n";
+                }
+                else
+                {
+                    textBox1.Text += "Not found h1 user !";
+                }
+            }
+
+            url = "http://www.yihu.com/action/doctor/guahaocheck1.ashx";
+            request = (HttpWebRequest)HttpWebRequest.Create(url);
             //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
             request.CookieContainer = cookieContainer;
             request.Referer = url;
@@ -416,9 +501,9 @@ namespace QiangHaoQi
             request.Method = "POST";
 
             Dictionary<string, string> keyvalues = new Dictionary<string, string>();
-            keyvalues.Add("doctorsn", "22599");
-            keyvalues.Add("sn", "121908955");
-            keyvalues.Add("d", "1417347666366");
+            keyvalues.Add("doctorsn", doctorArr[Doctor.SelectedIndex].sn);
+            keyvalues.Add("sn", foundH1user[0].Groups["requestSN"].Value);
+            keyvalues.Add("d", "");
 
             Encoding encoding;
             encoding = Encoding.UTF8;
@@ -442,18 +527,39 @@ namespace QiangHaoQi
             stream1.Write(buffer, 0, buffer.Length);
             stream1.Close();
 
-            
 
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            //Stream stream = response.GetResponseStream();  //转换为数据流
-            //StreamReader reader = new StreamReader(stream);
-            //string html = reader.ReadToEnd();   //通过StreamReader类读取流
-            //reader.Close();
-            //stream.Close();
-            //textBox1.Text = html;
+            response = (HttpWebResponse)request.GetResponse();
 
-            url = "http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22599&sn=121908964&saleid=3590098";
+            stream = response.GetResponseStream();  //转换为数据流
+            reader = new StreamReader(stream);
+            html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
+
+            JsonData jsd;
+            try
+            {
+                jsd = JsonMapper.ToObject(html);
+                permitInfo = new PermitInfo(jsd["Code"].ToString(), jsd["LockOrderID"].ToString(), jsd["WaterID"].ToString(),
+                    jsd["HinStr"].ToString(), jsd["Url"].ToString(), jsd["Time"].ToString());
+                //textBox1.Text = jsd["Url"].ToString();
+                //textBox1.Text = jsd["ArrangeList"][0].ToString();
+                //textBox1.Text = jsd["ArrangeList"].IsArray.ToString();
+                //print (frame["cmd"]);
+                //print (frame["data"]);
+                //DataProc((byte)frame["cmd"], (JsonData)frame["data"]);
+                
+            }
+            catch (Exception ex)
+            {
+                //print(ex);
+                //return;
+                textBox1.Text = "json error";
+            }
+
+            url = "http://www.yihu.com"+permitInfo.Url;
             HttpWebRequest request1 = (HttpWebRequest)HttpWebRequest.Create(url);
             //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
             request1.CookieContainer = cookieContainer;
@@ -465,9 +571,9 @@ namespace QiangHaoQi
 
             HttpWebResponse response1 = (HttpWebResponse)request1.GetResponse();
 
-            Stream stream = response1.GetResponseStream();  //转换为数据流
-            StreamReader reader = new StreamReader(stream);
-            string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            stream = response1.GetResponseStream();  //转换为数据流
+            reader = new StreamReader(stream);
+            html = reader.ReadToEnd();   //通过StreamReader类读取流
             reader.Close();
             stream.Close();
             textBox1.Text = html;
