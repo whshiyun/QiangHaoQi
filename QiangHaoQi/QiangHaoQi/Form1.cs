@@ -82,12 +82,26 @@ namespace QiangHaoQi
             public string Time;
         }
 
+        public class PersonInfo
+        {
+            public PersonInfo(string name, string memberID, string memberSN)
+            {
+                this.name = name;
+                this.memberID = memberID;
+                this.memberSN = memberSN;
+            }
+            public string name;
+            public string memberID;
+            public string memberSN;
+        }
+
         private const string baseUrl = "http://www.yihu.com/";
         private List<NameAndUrl> departmentsArr = new List<NameAndUrl>();
         private List<NameAndUrl> doctorArr = new List<NameAndUrl>();
         //private List<DocInfo> doctorInfo = new List<DocInfo>();
         private CookieContainer cookieContainer = new CookieContainer();
         private List<SchedulingTableInfo> schedulingTableInfo = new List<SchedulingTableInfo>();
+        private List<PersonInfo> personInfo = new List<PersonInfo>();
         private PermitInfo permitInfo;
 
         private void Set_NameAndUrl(List<NameAndUrl> list, MatchCollection nameAndUrl)
@@ -577,11 +591,57 @@ namespace QiangHaoQi
             reader.Close();
             stream.Close();
             textBox1.Text = url;//html;
+
+
+            url = "http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=&d=";
+            request = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "GET";
+
+            response = (HttpWebResponse)request.GetResponse();
+
+            stream = response.GetResponseStream();  //转换为数据流
+            reader = new StreamReader(stream);
+            html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
+           //http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=&d=
+           //onclick="NewBindMemberInfo(1,9824864);">宋师</div>
+            h1userP = @"onclick=""NewBindMemberInfo\((?<memberID>.+?),(?<memberSN>.+?)\);"">(?<name>.+?)</div>";
+            foundH1user = (new Regex(h1userP)).Matches(textBox1.Text);
+
+            textBox1.Text = "";
+            foreach (Match m in foundH1user)
+            {
+                if (m.Success)
+                {
+                    //extracted the expected h1user's value
+                    textBox1.Text += m.Groups["name"].Value;
+                    textBox1.Text += m.Groups["memberID"].Value;
+                    textBox1.Text += m.Groups["memberSN"].Value;
+                    textBox1.Text += "\r\n";
+
+                    PersonCh.Items.Add(m.Groups["name"].Value);
+                    personInfo.Add(new PersonInfo(m.Groups["name"].Value, m.Groups["memberID"].Value, m.Groups["memberSN"].Value));
+                }
+                else
+                {
+                    textBox1.Text += "Not found h1 user !";
+                }
+            }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void ChoosePerson_Click(object sender, EventArgs e)
         {
 
         }
+
+
     }
 }

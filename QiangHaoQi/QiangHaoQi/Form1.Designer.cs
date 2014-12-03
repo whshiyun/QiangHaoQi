@@ -43,9 +43,9 @@
             this.TimeOk = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.TimeCh = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ChoosePerson = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.PersonCh = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -180,15 +180,15 @@
             this.TimeCh.Size = new System.Drawing.Size(200, 20);
             this.TimeCh.TabIndex = 12;
             // 
-            // button1
+            // ChoosePerson
             // 
-            this.button1.Location = new System.Drawing.Point(661, 183);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Ok";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.ChoosePerson.Location = new System.Drawing.Point(661, 183);
+            this.ChoosePerson.Name = "ChoosePerson";
+            this.ChoosePerson.Size = new System.Drawing.Size(75, 23);
+            this.ChoosePerson.TabIndex = 17;
+            this.ChoosePerson.Text = "Ok";
+            this.ChoosePerson.UseVisualStyleBackColor = true;
+            this.ChoosePerson.Click += new System.EventHandler(this.ChoosePerson_Click);
             // 
             // label6
             // 
@@ -199,22 +199,22 @@
             this.label6.TabIndex = 16;
             this.label6.Text = "选择挂号人：";
             // 
-            // comboBox1
+            // PersonCh
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(467, 183);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(188, 20);
-            this.comboBox1.TabIndex = 15;
+            this.PersonCh.FormattingEnabled = true;
+            this.PersonCh.Location = new System.Drawing.Point(467, 183);
+            this.PersonCh.Name = "PersonCh";
+            this.PersonCh.Size = new System.Drawing.Size(188, 20);
+            this.PersonCh.TabIndex = 15;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(748, 423);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ChoosePerson);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.PersonCh);
             this.Controls.Add(this.TimeOk);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TimeCh);
@@ -254,9 +254,9 @@
         private System.Windows.Forms.Button TimeOk;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox TimeCh;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ChoosePerson;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox PersonCh;
     }
 }
 
