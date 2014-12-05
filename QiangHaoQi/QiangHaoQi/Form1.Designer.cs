@@ -46,6 +46,9 @@
             this.ChoosePerson = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.PersonCh = new System.Windows.Forms.ComboBox();
+            this.IDCardOK = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.IDCardText = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -207,11 +210,40 @@
             this.PersonCh.Size = new System.Drawing.Size(188, 20);
             this.PersonCh.TabIndex = 15;
             // 
+            // IDCardOK
+            // 
+            this.IDCardOK.Location = new System.Drawing.Point(661, 217);
+            this.IDCardOK.Name = "IDCardOK";
+            this.IDCardOK.Size = new System.Drawing.Size(75, 23);
+            this.IDCardOK.TabIndex = 20;
+            this.IDCardOK.Text = "Ok";
+            this.IDCardOK.UseVisualStyleBackColor = true;
+            this.IDCardOK.Click += new System.EventHandler(this.IDCardOK_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(384, 220);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 12);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "挂号人身份证：";
+            // 
+            // IDCardText
+            // 
+            this.IDCardText.Location = new System.Drawing.Point(467, 217);
+            this.IDCardText.Name = "IDCardText";
+            this.IDCardText.Size = new System.Drawing.Size(188, 21);
+            this.IDCardText.TabIndex = 21;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(748, 423);
+            this.Controls.Add(this.IDCardText);
+            this.Controls.Add(this.IDCardOK);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.ChoosePerson);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.PersonCh);
@@ -257,6 +289,9 @@
         private System.Windows.Forms.Button ChoosePerson;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox PersonCh;
+        private System.Windows.Forms.Button IDCardOK;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox IDCardText;
     }
 }
 

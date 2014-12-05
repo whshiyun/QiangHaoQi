@@ -93,6 +93,10 @@ namespace QiangHaoQi
             public string name;
             public string memberID;
             public string memberSN;
+            public string IDCard;
+            public string year;
+            public string month;
+            public string day;
         }
 
         private const string baseUrl = "http://www.yihu.com/";
@@ -462,8 +466,9 @@ namespace QiangHaoQi
 
         private void TimeOk_Click(object sender, EventArgs e)
         {
+            PersonCh.Items.Clear();
             string url = "http://www.yihu.com/Action/doctor/NumberWater.ashx?sn=" + doctorArr[Doctor.SelectedIndex].sn +
-                "&date=" + schedulingTableInfo[TimeCh.SelectedIndex].date + "&timeid=" + schedulingTableInfo[TimeCh.SelectedIndex].timeId + 
+                "&date=" + schedulingTableInfo[TimeCh.SelectedIndex].date + "&timeid=" + schedulingTableInfo[TimeCh.SelectedIndex].timeId +
                 "&type=3&weekid=" + schedulingTableInfo[TimeCh.SelectedIndex].weekid + "&url=&state=4&d=";
 
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
@@ -564,7 +569,7 @@ namespace QiangHaoQi
                 //print (frame["cmd"]);
                 //print (frame["data"]);
                 //DataProc((byte)frame["cmd"], (JsonData)frame["data"]);
-                
+
             }
             catch (Exception ex)
             {
@@ -573,7 +578,7 @@ namespace QiangHaoQi
                 textBox1.Text = "json error";
             }
 
-            url = "http://www.yihu.com"+permitInfo.Url;
+            url = "http://www.yihu.com" + permitInfo.Url;
             HttpWebRequest request1 = (HttpWebRequest)HttpWebRequest.Create(url);
             //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
             request1.CookieContainer = cookieContainer;
@@ -611,8 +616,8 @@ namespace QiangHaoQi
             reader.Close();
             stream.Close();
             textBox1.Text = html;
-           //http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=&d=
-           //onclick="NewBindMemberInfo(1,9824864);">宋师</div>
+            //http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=&d=
+            //onclick="NewBindMemberInfo(1,9824864);">宋师</div>
             h1userP = @"onclick=""NewBindMemberInfo\((?<memberID>.+?),(?<memberSN>.+?)\);"">(?<name>.+?)</div>";
             foundH1user = (new Regex(h1userP)).Matches(textBox1.Text);
 
@@ -635,13 +640,241 @@ namespace QiangHaoQi
                     textBox1.Text += "Not found h1 user !";
                 }
             }
+            //string url = "http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=&d=";
+            //HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            ////填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            //request.CookieContainer = cookieContainer;
+            //request.Referer = url;
+            //request.ContentType = "application/x-www-form-urlencoded";
+            //request.Accept = "*/*";
+            //request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            //request.Method = "GET";
+
+            //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            //Stream stream = response.GetResponseStream();  //转换为数据流
+            //StreamReader reader = new StreamReader(stream);
+            //string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            //reader.Close();
+            //stream.Close();
+            //textBox1.Text = html;
+            ////http://www.yihu.com/Action/Doctor/NewMemberBind.ashx?url=&d=
+            ////onclick="NewBindMemberInfo(1,9824864);">宋师</div>
+            //string h1userP = @"onclick=""NewBindMemberInfo\((?<memberID>.+?),(?<memberSN>.+?)\);"">(?<name>.+?)</div>";
+            //MatchCollection foundH1user = (new Regex(h1userP)).Matches(textBox1.Text);
+
+            //textBox1.Text = "";
+            //foreach (Match m in foundH1user)
+            //{
+            //    if (m.Success)
+            //    {
+            //        //extracted the expected h1user's value
+            //        textBox1.Text += m.Groups["name"].Value;
+            //        textBox1.Text += m.Groups["memberID"].Value;
+            //        textBox1.Text += m.Groups["memberSN"].Value;
+            //        textBox1.Text += "\r\n";
+
+            //        PersonCh.Items.Add(m.Groups["name"].Value);
+            //        personInfo.Add(new PersonInfo(m.Groups["name"].Value, m.Groups["memberID"].Value, m.Groups["memberSN"].Value));
+            //    }
+            //    else
+            //    {
+            //        textBox1.Text += "Not found h1 user !";
+            //    }
+            //}
+            if (PersonCh.Items.Count != 0)
+                PersonCh.SelectedIndex = 0;
         }
 
         private void ChoosePerson_Click(object sender, EventArgs e)
         {
+            //http://www.yihu.com/Action/Doctor/NewRegCheck.ashx?time=&url=&membersn=9824864&memberid=1&ID=122433029
+            string url = "http://www.yihu.com/Action/Doctor/NewRegCheck.ashx?time=&url=&membersn=" + personInfo[PersonCh.SelectedIndex].memberSN
+                + "&memberid=" + personInfo[PersonCh.SelectedIndex].memberID + "&ID=" + permitInfo.WaterID;
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "GET";
 
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            Stream stream = response.GetResponseStream();  //转换为数据流
+            StreamReader reader = new StreamReader(stream);
+            string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
+
+            //id="hidIdentityNo" value="42098219871205564x" />
+            string h1userP = @"id=""hidIdentityNo""\s+value=""(?<IDCard>.+?)""\s+/>";
+            Match foundH1user = (new Regex(h1userP)).Match(textBox1.Text);
+            IDCardText.Text = foundH1user.Groups["IDCard"].Value;
+            personInfo[PersonCh.SelectedIndex].IDCard = foundH1user.Groups["IDCard"].Value;
+            personInfo[PersonCh.SelectedIndex].year = foundH1user.Groups["IDCard"].Value.Substring(6, 4);
+            personInfo[PersonCh.SelectedIndex].month = foundH1user.Groups["IDCard"].Value.Substring(10, 2);
+            personInfo[PersonCh.SelectedIndex].day = foundH1user.Groups["IDCard"].Value.Substring(12, 2);
+
+            textBox1.Text = personInfo[PersonCh.SelectedIndex].year+"-";
+            textBox1.Text += personInfo[PersonCh.SelectedIndex].month+"-";
+            textBox1.Text += personInfo[PersonCh.SelectedIndex].day;
         }
 
+        private void IDCardOK_Click(object sender, EventArgs e)
+        {
+            //http://www.yihu.com/Action/UpDateUser.ashx?up=0&cardup=0&
+            //id=122037417&memberid=1&membersn=9824864&provinceid=17&ghthospitalid=1214&IdentityNo=42098219871205564x&
+            //clinicCardNo=%E5%88%9D%E8%AF%8A&othercard=%E6%97%A0%E5%8C%BB%E4%BF%9D%E5%8D%A1&
+            //year=1987&month=12&day=5&d=1417445132505&url=http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22598&sn=122037417&saleid=3605236
+            string url = "http://www.yihu.com/Action/UpDateUser.ashx?up=0&cardup=0&id=" + permitInfo.WaterID +
+            "&memberid=" + personInfo[PersonCh.SelectedIndex].memberID + "&membersn=" + personInfo[PersonCh.SelectedIndex].memberSN +
+            "&provinceid=17&ghthospitalid=1214&IdentityNo=" + personInfo[PersonCh.SelectedIndex].IDCard +
+            "&clinicCardNo=%E5%88%9D%E8%AF%8A&othercard=%E6%97%A0%E5%8C%BB%E4%BF%9D%E5%8D%A1&year=" + personInfo[PersonCh.SelectedIndex].year +
+            "&month=" + personInfo[PersonCh.SelectedIndex].month +
+            "&day=" + personInfo[PersonCh.SelectedIndex].day + "&d=&url=" + permitInfo.Url;
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "GET";
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            Stream stream = response.GetResponseStream();  //转换为数据流
+            StreamReader reader = new StreamReader(stream);
+            string html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
+
+            //url = "http://www.yihu.com/shop/pay/";
+            //request = (HttpWebRequest)HttpWebRequest.Create(url);
+            ////填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            //request.CookieContainer = cookieContainer;
+            //request.Referer = url;
+            //request.ContentType = "application/x-www-form-urlencoded";
+            //request.Accept = "*/*";
+            //request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            //request.Method = "GET";
+
+            //response = (HttpWebResponse)request.GetResponse();
+
+            //stream = response.GetResponseStream();  //转换为数据流
+            //reader = new StreamReader(stream);
+            //html = reader.ReadToEnd();   //通过StreamReader类读取流
+            //reader.Close();
+            //stream.Close();
+            //textBox1.Text = html;
+
+            //string h1userP1 = @"id=""__VIEWSTATE""\s+value=""(?<VIEWSTATE>[^""]+?)""";
+            //Match foundH1user1 = (new Regex(h1userP1)).Match(textBox1.Text);
+            //string h1userP2 = @"id=""__EVENTVALIDATION""\s+value=""(?<EVENTVALIDATION>[^""]+?)""";
+            //Match foundH1user2 = (new Regex(h1userP2)).Match(textBox1.Text);
+
+            //textBox1.Text = "";
+            ////foreach (Match m in foundH1user)
+            ////{
+            ////    if (m.Success)
+            ////    {
+            ////        //extracted the expected h1user's value
+            ////        textBox1.Text += m.Groups["VIEWSTATE"].Value;
+            ////        textBox1.Text += "\r\n";
+            ////        textBox1.Text += m.Groups["EVENTVALIDATION"].Value;
+            ////        textBox1.Text += "\r\n";
+            ////    }
+            ////    else
+            ////    {
+            ////        textBox1.Text += "Not found h1 user !";
+            ////    }
+            ////}
+            //if (foundH1user1.Success)
+            //{
+            //    textBox1.Text += foundH1user1.Groups["VIEWSTATE"].Value;
+            //    textBox1.Text += "\r\n";
+            //}
+            //if (foundH1user2.Success)
+            //{
+            //    textBox1.Text += foundH1user2.Groups["EVENTVALIDATION"].Value;
+            //    textBox1.Text += "\r\n";
+            //}
+
+            url = "http://www.yihu.com/shop/pay/";
+            request = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "GET";
+
+            response = (HttpWebResponse)request.GetResponse();
+
+            stream = response.GetResponseStream();  //转换为数据流
+            reader = new StreamReader(stream);
+            html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
+
+
+            url = "http://www.yihu.com/Shop/pay/";
+            request = (HttpWebRequest)HttpWebRequest.Create(url);
+            //填充数据包的信息，填充的值都是在数据包查找对应的信息得到的
+            request.CookieContainer = cookieContainer;
+            request.Referer = url;
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36";
+            request.Method = "POST";
+
+            Dictionary<string, string> keyvalues = new Dictionary<string, string>();
+            keyvalues.Add("__VIEWSTATE", "/wEPDwUJNDczNTQ1ODY2D2QWBGYPZBYCAgIPFgIeBXN0eWxlZBYCAgEPFgIeCWlubmVyaHRtbAUG5a6L5biIZAIBD2QWBAIBDxYCHgdWaXNpYmxlZ2QCBg8PZBYCHgdvbmNsaWNrBRNyZXR1cm4gU2VuZE90aGVyKCk7ZGSMh7G1UIDQ/jqJxoKZKZL/GjLHcNFAkzrSBwWjm/Sq8Q==");
+            keyvalues.Add("__EVENTVALIDATION", "/wEWBwLyh8D7BALEku31BQLyyqfVAQKatLeqAQK5jfL3BQLetsaBCQKRt/i8DqCvjrtutS+T6hvZJJvbpBG6T5Yqk0HGNI4G7XNZCc2A");
+            keyvalues.Add("txtphone", "");
+            keyvalues.Add("yuepaytype", "99");
+            keyvalues.Add("ConfirmPaymentBtn", "确定支付");
+            keyvalues.Add("PayTypeID", "99");
+            keyvalues.Add("ProductType", "1");
+            keyvalues.Add("cardBalanceType", "99");
+
+            Encoding encoding;
+            encoding = Encoding.UTF8;
+
+            string postData = null;
+            // 将数据项转变成 name1=value1&name2=value2 的形式
+            if (keyvalues != null && keyvalues.Count > 0)
+            {
+                postData = string.Join("&",
+                        (from kvp in keyvalues
+                         let item = kvp.Key + "=" + HttpUtility.UrlEncode(kvp.Value)
+                         select item
+                         ).ToArray()
+                     );
+            }
+
+            byte[] buffer = encoding.GetBytes(postData);
+            request.ContentLength = buffer.Length;
+
+            Stream stream1 = request.GetRequestStream();
+            stream1.Write(buffer, 0, buffer.Length);
+            stream1.Close();
+
+            response = (HttpWebResponse)request.GetResponse();
+
+            stream = response.GetResponseStream();  //转换为数据流
+            reader = new StreamReader(stream);
+            html = reader.ReadToEnd();   //通过StreamReader类读取流
+            reader.Close();
+            stream.Close();
+            textBox1.Text = html;
+        }
 
     }
 }
