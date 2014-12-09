@@ -64,6 +64,7 @@
     <Compile Include="LitJson\JsonWriter.cs" />
     <Compile Include="LitJson\Lexer.cs" />
     <Compile Include="LitJson\ParserToken.cs" />
+    <Compile Include="MyWeb.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
