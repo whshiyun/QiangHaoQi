@@ -34,3 +34,20 @@ http://www.yihu.com/Action/UpDateUser.ashx?up=0&cardup=0&id=122037417&memberid=1
 //对挂号请求的url编码的解码
 http://www.yihu.com/Action/UpDateUser.ashx?up=0&cardup=0&id=122037417&memberid=1&membersn=9824864&provinceid=17&ghthospitalid=1214&IdentityNo=42098219871205564x&clinicCardNo=初诊&othercard=无医保卡&year=1987&month=12&day=5&d=1417445132505&url=http://www.yihu.com/doctor/NewOrderList.aspx?doctorsn=22598&sn=122037417&saleid=3605236
 
+<<<<<<< HEAD
+=======
+//SET付款界面，得到post参数
+http://www.yihu.com/Shop/pay/
+POST参数：
+
+
+//POST付款界面完成付款
+http://www.yihu.com/Shop/pay/
+
+
+
+
+
+
+
+>>>>>>> origin/master
